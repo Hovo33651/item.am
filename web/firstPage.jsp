@@ -96,7 +96,7 @@
     <a href="/?catId=house">Բնակարաններ/Տներ</a>
     <a href="/?catId=commercial">Կոմերցիոն հայտարարություններ</a>
     <a href="/?catId=furniture">Կահույք</a>
-    <a href="/login.jsp" class="right">Մուտք</a>
+    <a href="/logIn.jsp" class="right">Մուտք</a>
     <a href="/register.jsp" class="right">Գրանցվել</a>
 </div>
 

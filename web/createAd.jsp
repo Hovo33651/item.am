@@ -86,10 +86,10 @@
 
         <label><b>Ընտրիր կատեգորիա</b></label><br>
         <select name="category">
-            <option value="CAR">Ավտոմեքենաներ</option>
-            <option value="HOUSE">Բնակարան/Տուն</option>
-            <option value="FURNITURE">Կահույք</option>
-            <option value="COMMERCIAL">Կոմերցիոն</option>
+            <option value="car">Ավտոմեքենաներ</option>
+            <option value="house">Բնակարան/Տուն</option>
+            <option value="furniture">Կահույք</option>
+            <option value="commercial">Կոմերցիոն</option>
         </select>
 
 

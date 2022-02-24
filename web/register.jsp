@@ -98,7 +98,7 @@
     </div>
 
     <div class="container signIn">
-        <p>Արդեն գրանցվա՞ծ ես <a href="${pageContext.request.contextPath}/login.jsp">Մուտք</a>.</p>
+        <p>Արդեն գրանցվա՞ծ ես <a href="${pageContext.request.contextPath}/logIn.jsp">Մուտք</a>.</p>
     </div>
 </form>
 </body>

@@ -1,5 +1,6 @@
 package itemAm.servlet;
 
+import itemAm.manager.CategoryManager;
 import itemAm.manager.ItemManager;
 import itemAm.manager.UserManager;
 import itemAm.model.Category;
@@ -24,13 +25,14 @@ public class CreateAdServlet extends HttpServlet {
     private final String UPLOAD_DIR = "C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\upload";
     private final ItemManager itemManager = new ItemManager();
     private final UserManager userManager = new UserManager();
+    private final CategoryManager categoryManager = new CategoryManager();
 
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
         String description = req.getParameter("description");
-        Category category = Category.valueOf(req.getParameter("category"));
+        Category category = categoryManager.getCategoryByName(req.getParameter("category"));
         double price = Double.parseDouble(req.getParameter("price"));
         String currency = req.getParameter("currency");
         int userId = Integer.parseInt(req.getParameter("userId"));
@@ -42,7 +44,6 @@ public class CreateAdServlet extends HttpServlet {
                .price(price)
                .currency(currency)
                .user(userManager.getUserById(userId))
-
                .build();
 
         for (Part part : req.getParts()) {

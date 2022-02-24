@@ -133,7 +133,7 @@
 <div class="bottom-container">
     <div class="row" >
         <div class="col" >
-            <a href="${pageContext.request.contextPath}/WEB-INF/register.jsp" style="color:white" class="btn">Գրանցում</a>
+            <a href="${pageContext.request.contextPath}/register.jsp" style="color:white" class="btn">Գրանցում</a>
         </div>
     </div>
 </div>

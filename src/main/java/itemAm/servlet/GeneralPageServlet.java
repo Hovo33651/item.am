@@ -1,6 +1,8 @@
 package itemAm.servlet;
 
+import itemAm.manager.CategoryManager;
 import itemAm.manager.ItemManager;
+import itemAm.model.Category;
 import itemAm.model.Item;
 import itemAm.model.User;
 
@@ -17,41 +19,38 @@ import java.util.List;
 public class GeneralPageServlet extends HttpServlet {
 
     private final ItemManager itemManager = new ItemManager();
+    private final CategoryManager categoryManager = new CategoryManager();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        List<Item> lastItems = itemManager.getLastItems();
-        String catId = req.getParameter("catId");
+        String catName = req.getParameter("catId");
+        Category category = categoryManager.getCategoryByName(catName);
 
-        if (user == null) {
-            req.setAttribute("items",lastItems);
-            req.getRequestDispatcher("/first.jsp").forward(req,resp);
-        } else {
-            List<Item> items;
-            if (catId == null) {
+        List<Item> lastItems = itemManager.getLastItems();
+        List<Item> lastItemsByCategory;
+
+        if(user == null){
+            if(category == null){
                 req.setAttribute("items",lastItems);
-                req.getRequestDispatcher("/home.jsp").forward(req,resp);
-            } else if (catId.equals("car")){
-                items = itemManager.getLastItemsByCategory("CAR");
-                req.setAttribute("items",items);
-                req.getRequestDispatcher("/home.jsp").forward(req,resp);
+                req.getRequestDispatcher("/firstPage.jsp").forward(req,resp);
             }
-            else if(catId.equals("house")){
-                items = itemManager.getLastItemsByCategory("HOUSE");
-                req.setAttribute("items",items);
-                req.getRequestDispatcher("/home.jsp").forward(req,resp);
+            else{
+                lastItemsByCategory = itemManager.getLastItemsByCategory(category);
+                req.setAttribute("items",lastItemsByCategory);
+                req.getRequestDispatcher("/firstPage.jsp").forward(req,resp);
             }
-            else if(catId.equals("commercial")){
-                items = itemManager.getLastItemsByCategory("COMMERCIAL");
-                req.setAttribute("items",items);
-                req.getRequestDispatcher("/home.jsp").forward(req,resp);
+        }
+        else{
+            if(category == null){
+                req.setAttribute("items",lastItems);
+                req.getRequestDispatcher("/home..jsp").forward(req,resp);
             }
-            else if(catId.equals("furniture")){
-                items = itemManager.getLastItemsByCategory("FURNITURE");
-                req.setAttribute("items",items);
-                req.getRequestDispatcher("/home.jsp").forward(req,resp);
+            else{
+                lastItemsByCategory = itemManager.getLastItemsByCategory(category);
+                req.setAttribute("items",lastItemsByCategory);
+                req.getRequestDispatcher("/home..jsp").forward(req,resp);
             }
         }
     }

@@ -11,10 +11,11 @@ import java.util.List;
 public class ItemManager {
     private final Connection connection = DBConnectionProvider.getInstance().getConnection();
     private final UserManager userManager = new UserManager();
+    private final CategoryManager categoryManager = new CategoryManager();
 
 
     public boolean addItem(Item item) {
-        String sql = "INSERT INTO item(title,description,price,currency,category,user_id,pic_url) VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO item(title,description,price,currency,category_id,user_id,pic_url) VALUES(?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, item.getTitle());
@@ -22,7 +23,7 @@ public class ItemManager {
             statement.setDouble(3
                     , item.getPrice());
             statement.setString(4, item.getCurrency());
-            statement.setString(5, item.getCategory().name());
+            statement.setInt(5, item.getCategory().getId());
             statement.setInt(6, item.getUser().getId());
             statement.setString(7, item.getPicUrl());
             statement.executeUpdate();
@@ -54,12 +55,12 @@ public class ItemManager {
         }
     }
 
-    public List<Item> getLastItemsByCategory(String cat) {
-        String sql = "SELECT * FROM item WHERE category = ? ORDER BY id DESC LIMIT 20";
+    public List<Item> getLastItemsByCategory(Category category) {
+        String sql = "SELECT * FROM item WHERE category_id = ? ORDER BY id DESC LIMIT 20";
         List<Item> items = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, cat);
+            statement.setInt(1, category.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 items.add(getItemsFromResultSet(resultSet));
@@ -80,7 +81,7 @@ public class ItemManager {
                     .description(resultSet.getString(3))
                     .price(resultSet.getDouble(4))
                     .currency(resultSet.getString(5))
-                    .category(Category.valueOf(resultSet.getString(6)))
+                    .category(categoryManager.getCategoryById(resultSet.getInt(6)))
                     .user(userManager.getUserById(resultSet.getInt(7)))
                     .picUrl(resultSet.getString(8))
                     .build();
