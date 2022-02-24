@@ -109,10 +109,10 @@
 <div class="navbar">
     <a href="${pageContext.request.contextPath}/">Գլխավոր</a>
     <%for (Category category : categories) {%>
-    <a href="${pageContext.request.contextPath}/?catId=<%=category.getId()%>"><%=category.getName()%>></a>
+    <a href="${pageContext.request.contextPath}/?catId=<%=category.getId()%>"><%=category.getName()%></a>
     <%}%>
     <a href="${pageContext.request.contextPath}/logout" class="right">Ելք</a>
-    <a href="${pageContext.request.contextPath}/currentUserAds?userId=<%=user.getId()%>" class="right">Իմ հայտարարությունները</a>
+    <a href="${pageContext.request.contextPath}/currentUserAds" class="right">Իմ հայտարարությունները</a>
     <a href="${pageContext.request.contextPath}/createAd.jsp" class="right">Ավելացնել հայտարարություն</a>
 </div>
 
@@ -123,7 +123,7 @@
     <div class="side">
         <h2><%=item.getTitle()%></h2>
         <h5><%=item.getDescription()%></h5>
-        <h5><%=item.getPrice()%></h5>
+        <h5><%=item.getPrice() + " " + item.getCurrency()%></h5>
         <h5><%=item.getUser().getEmail()%></h5>
         <%if(item.getPicUrl()!= null){%>
         <div class="fakeImg" style="height:200px;">

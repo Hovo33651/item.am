@@ -5,14 +5,12 @@ import itemAm.manager.ItemManager;
 import itemAm.manager.UserManager;
 import itemAm.model.Category;
 import itemAm.model.Item;
+import itemAm.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -36,16 +34,17 @@ public class CreateAdServlet extends HttpServlet {
         double price = Double.parseDouble(req.getParameter("price"));
         String currency = req.getParameter("currency");
 
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
 
-       Item item = Item.builder()
-               .title(title)
-               .description(description)
-               .category(category)
-               .price(price)
-               .currency(currency)
-               .user(userManager.getUserById(userId))
-               .build();
+        Item item = Item.builder()
+                .title(title)
+                .description(description)
+                .category(category)
+                .price(price)
+                .currency(currency)
+                .user(user)
+                .build();
 
         for (Part part : req.getParts()) {
             if (getFileName(part) != null) {

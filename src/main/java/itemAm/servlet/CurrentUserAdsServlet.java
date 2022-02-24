@@ -20,7 +20,7 @@ public class CurrentUserAdsServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        User user =(User) session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         List<Item> itemsByUser = itemManager.getCurrentUserAds(user.getId());
 
         req.setAttribute("items",itemsByUser);

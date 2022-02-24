@@ -90,9 +90,10 @@
         <textarea name="description" placeholder="Item Description"></textarea><br>
 
         <label><b>Ընտրիր կատեգորիա</b></label><br>
-        <%for (Category cat : allCategories) {%>
         <select name="catId">
+            <%for (Category cat : allCategories) {%>
             <option value="<%=cat.getId()%>"><%=cat.getName()%>></option>
+            <%}%>
         </select>
 
         <label><b>Գինը</b></label>
@@ -107,7 +108,6 @@
 
         <label>Ընտրիր նկար</label><br>
         <input type="file" name="image"><br>
-        <input type="hidden" name="userId" value="<%=user.getId()%>">
         <hr>
         <button type="submit" class="registerBtn">Ավելացնել</button>
     </div>

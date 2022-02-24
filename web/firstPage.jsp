@@ -108,7 +108,7 @@
     <div class="side">
         <h2><%=item.getTitle()%></h2>
         <h5><%=item.getDescription()%></h5>
-        <h5><%=item.getPrice()%></h5>
+        <h5><%=item.getPrice() + " " + item.getCurrency()%> </h5>
         <h5><%=item.getUser().getEmail()%></h5>
         <%if(item.getPicUrl()!= null){%>
         <div class="fakeImg" style="height:200px;">
