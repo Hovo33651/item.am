@@ -1,4 +1,7 @@
-<%@ page import="itemAm.model.User" %><%--
+<%@ page import="itemAm.model.User" %>
+<%@ page import="itemAm.manager.CategoryManager" %>
+<%@ page import="itemAm.model.Category" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Hovhanes Gevorgyan
   Date: 24.02.2022
@@ -72,6 +75,8 @@
 <%
     HttpSession currentSession = request.getSession();
     User user = (User) currentSession.getAttribute("user");
+    CategoryManager categoryManager = new CategoryManager();
+    List<Category> allCategories = categoryManager.getAllCategories();
 %>
 <form action="/createAd" method="post" enctype="multipart/form-data">
     <div class="container">
@@ -85,13 +90,10 @@
         <textarea name="description" placeholder="Item Description"></textarea><br>
 
         <label><b>Ընտրիր կատեգորիա</b></label><br>
-        <select name="category">
-            <option value="car">Ավտոմեքենաներ</option>
-            <option value="house">Բնակարան/Տուն</option>
-            <option value="furniture">Կահույք</option>
-            <option value="commercial">Կոմերցիոն</option>
+        <%for (Category cat : allCategories) {%>
+        <select name="catId">
+            <option value="<%=cat.getId()%>"><%=cat.getName()%>></option>
         </select>
-
 
         <label><b>Գինը</b></label>
         <input type="text" placeholder="Input the price" name="price" id="psw-repeat" required>

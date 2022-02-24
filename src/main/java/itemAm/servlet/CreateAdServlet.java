@@ -32,7 +32,7 @@ public class CreateAdServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("title");
         String description = req.getParameter("description");
-        Category category = categoryManager.getCategoryByName(req.getParameter("category"));
+        Category category = categoryManager.getCategoryById(Integer.parseInt(req.getParameter("catId")));
         double price = Double.parseDouble(req.getParameter("price"));
         String currency = req.getParameter("currency");
         int userId = Integer.parseInt(req.getParameter("userId"));

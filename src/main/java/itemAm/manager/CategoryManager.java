@@ -2,11 +2,14 @@ package itemAm.manager;
 
 import itemAm.db.DBConnectionProvider;
 import itemAm.model.Category;
+import itemAm.model.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryManager {
     Connection connection = DBConnectionProvider.getInstance().getConnection();
@@ -53,5 +56,21 @@ public class CategoryManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<Category> getAllCategories(){
+        String sql = "SELECT * FROM category";
+        List<Category> categories = new ArrayList<>();
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                categories.add(getCatFromResultSet(resultSet));
+            }
+            return categories;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

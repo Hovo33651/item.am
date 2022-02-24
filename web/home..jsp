@@ -1,6 +1,9 @@
 <%@ page import="itemAm.model.User" %>
 <%@ page import="itemAm.model.Item" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="itemAm.manager.CategoryManager" %>
+<%@ page import="itemAm.model.Category" %><%--
   Created by IntelliJ IDEA.
   User: Hovhanes Gevorgyan
   Date: 23.02.2022
@@ -94,6 +97,7 @@
 <%
     HttpSession currentSession = request.getSession();
     User user = (User) currentSession.getAttribute("user");
+    List<Category> categories = (List<Category>)request.getAttribute("categories");
 %>
 <div class="header">
     <h1>ITEM.AM</h1>
@@ -104,10 +108,9 @@
 
 <div class="navbar">
     <a href="${pageContext.request.contextPath}/">Գլխավոր</a>
-    <a href="${pageContext.request.contextPath}/?catId=car">Ավտոմեքենաներ</a>
-    <a href="${pageContext.request.contextPath}/?catId=house">Բնակարաններ/Տներ</a>
-    <a href="${pageContext.request.contextPath}/?catId=commercial">Կոմերցիոն հայտարարություններ</a>
-    <a href="${pageContext.request.contextPath}/?catId=furniture">Կահույք</a>
+    <%for (Category category : categories) {%>
+    <a href="${pageContext.request.contextPath}/?catId=<%=category.getId()%>"><%=category.getName()%>></a>
+    <%}%>
     <a href="${pageContext.request.contextPath}/logout" class="right">Ելք</a>
     <a href="${pageContext.request.contextPath}/currentUserAds?userId=<%=user.getId()%>" class="right">Իմ հայտարարությունները</a>
     <a href="${pageContext.request.contextPath}/createAd.jsp" class="right">Ավելացնել հայտարարություն</a>

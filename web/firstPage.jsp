@@ -1,5 +1,6 @@
 <%@ page import="itemAm.model.Item" %>
 <%@ page import="java.util.List" %>
+<%@ page import="itemAm.model.Category" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -89,13 +90,13 @@
 <div class="header">
     <h1>ITEM.AM</h1>
 </div>
-
+<%    List<Category> categories = (List<Category>)request.getAttribute("categories");
+%>
 <div class="navbar">
     <a href="/">Գլխավոր</a>
-    <a href="/?catId=car">Ավտոմեքենաներ</a>
-    <a href="/?catId=house">Բնակարաններ/Տներ</a>
-    <a href="/?catId=commercial">Կոմերցիոն հայտարարություններ</a>
-    <a href="/?catId=furniture">Կահույք</a>
+    <%for (Category category : categories) {%>
+    <a href="${pageContext.request.contextPath}/?catId=<%=category.getId()%>"><%=category.getName()%></a>
+    <%}%>
     <a href="/logIn.jsp" class="right">Մուտք</a>
     <a href="/register.jsp" class="right">Գրանցվել</a>
 </div>

@@ -25,30 +25,35 @@ public class GeneralPageServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        String catName = req.getParameter("catId");
-        Category category = categoryManager.getCategoryByName(catName);
+        int catId = Integer.parseInt(req.getParameter("catId"));
+        Category category = categoryManager.getCategoryById(catId);
 
         List<Item> lastItems = itemManager.getLastItems();
         List<Item> lastItemsByCategory;
+        List<Category> categories = categoryManager.getAllCategories();
 
         if(user == null){
             if(category == null){
                 req.setAttribute("items",lastItems);
+                req.setAttribute("categories",categories);
                 req.getRequestDispatcher("/firstPage.jsp").forward(req,resp);
             }
             else{
                 lastItemsByCategory = itemManager.getLastItemsByCategory(category);
                 req.setAttribute("items",lastItemsByCategory);
+                req.setAttribute("categories",categories);
                 req.getRequestDispatcher("/firstPage.jsp").forward(req,resp);
             }
         }
         else{
             if(category == null){
                 req.setAttribute("items",lastItems);
+                req.setAttribute("categories",categories);
                 req.getRequestDispatcher("/home..jsp").forward(req,resp);
             }
             else{
                 lastItemsByCategory = itemManager.getLastItemsByCategory(category);
+                req.setAttribute("categories",categories);
                 req.setAttribute("items",lastItemsByCategory);
                 req.getRequestDispatcher("/home..jsp").forward(req,resp);
             }
