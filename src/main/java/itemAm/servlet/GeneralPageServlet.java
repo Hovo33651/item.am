@@ -25,35 +25,26 @@ public class GeneralPageServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        int catId = Integer.parseInt(req.getParameter("catId"));
-        Category category = categoryManager.getCategoryById(catId);
+        String catIdStr = req.getParameter("catId");
 
+        List<Category> allCategories = categoryManager.getAllCategories();
         List<Item> lastItems = itemManager.getLastItems();
-        List<Item> lastItemsByCategory;
-        List<Category> categories = categoryManager.getAllCategories();
-
+        session.setAttribute("categories",allCategories);
         if(user == null){
-            if(category == null){
+            if(catIdStr == null){
                 req.setAttribute("items",lastItems);
-                req.setAttribute("categories",categories);
                 req.getRequestDispatcher("/firstPage.jsp").forward(req,resp);
-            }
-            else{
-                lastItemsByCategory = itemManager.getLastItemsByCategory(category);
+            }else{
+                List<Item> lastItemsByCategory = itemManager.getLastItemsByCategory(categoryManager.getCategoryById(Integer.parseInt(catIdStr)));
                 req.setAttribute("items",lastItemsByCategory);
-                req.setAttribute("categories",categories);
                 req.getRequestDispatcher("/firstPage.jsp").forward(req,resp);
             }
-        }
-        else{
-            if(category == null){
+        }else{
+            if(catIdStr == null){
                 req.setAttribute("items",lastItems);
-                req.setAttribute("categories",categories);
                 req.getRequestDispatcher("/home..jsp").forward(req,resp);
-            }
-            else{
-                lastItemsByCategory = itemManager.getLastItemsByCategory(category);
-                req.setAttribute("categories",categories);
+            }else{
+                List<Item> lastItemsByCategory = itemManager.getLastItemsByCategory(categoryManager.getCategoryById(Integer.parseInt(catIdStr)));
                 req.setAttribute("items",lastItemsByCategory);
                 req.getRequestDispatcher("/home..jsp").forward(req,resp);
             }

@@ -97,7 +97,7 @@
 <%
     HttpSession currentSession = request.getSession();
     User user = (User) currentSession.getAttribute("user");
-    List<Category> categories = (List<Category>)request.getAttribute("categories");
+    List<Category> categories = (List<Category>)session.getAttribute("categories");
 %>
 <div class="header">
     <h1>ITEM.AM</h1>

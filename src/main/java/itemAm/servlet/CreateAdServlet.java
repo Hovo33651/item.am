@@ -35,6 +35,7 @@ public class CreateAdServlet extends HttpServlet {
         Category category = categoryManager.getCategoryById(Integer.parseInt(req.getParameter("catId")));
         double price = Double.parseDouble(req.getParameter("price"));
         String currency = req.getParameter("currency");
+
         int userId = Integer.parseInt(req.getParameter("userId"));
 
        Item item = Item.builder()

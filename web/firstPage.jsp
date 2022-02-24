@@ -90,7 +90,7 @@
 <div class="header">
     <h1>ITEM.AM</h1>
 </div>
-<%    List<Category> categories = (List<Category>)request.getAttribute("categories");
+<%    List<Category> categories = (List<Category>)session.getAttribute("categories");
 %>
 <div class="navbar">
     <a href="/">Գլխավոր</a>
