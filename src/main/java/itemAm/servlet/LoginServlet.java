@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
         User user = userManager.getUserByEmail(email);
 
         if (user == null || !user.getPassword().equals(password)) {
-            resp.sendRedirect("/logIn.jsp");
+            resp.sendRedirect("/login.jsp");
         } else {
             req.getSession().setAttribute("user", user);
             resp.sendRedirect("/");

@@ -70,7 +70,7 @@
 
     /* Set a grey background color and center the text of the "sign in" section */
     .signIn {
-        background-color: #f1f1f1;
+        background-color: #f63737;
         text-align: center;
     }
 </style>
@@ -81,24 +81,24 @@
         <p>Գրանցվելու համար լրացրեք բոլոր տողերը</p>
         <hr>
 
-        <label for="name"><b>Name</b></label>
-        <input type="text" placeholder="Enter Name" name="name" id="name" required>
+        <label for="name"><b>Անուն*</b></label>
+        <input type="text" placeholder="Ձեր անունը" name="name" id="name" required>
 
-        <label for="surname"><b>Surname</b></label>
-        <input type="text" placeholder="Enter Surname" name="surname" id="surname" required>
+        <label for="surname"><b>Ազգանուն*</b></label>
+        <input type="text" placeholder="Ձեր ազգանունը" name="surname" id="surname" required>
 
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" id="email" required>
+        <label for="email"><b>Էլ․ հասցե*</b></label>
+        <input type="text" placeholder="Ձեր էլ․ հասցեն" name="email" id="email" required>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" id="psw" required>
+        <label for="psw"><b>Գաղտնաբառ*</b></label>
+        <input type="password" placeholder="Ձեր գաղտնաբառը" name="password" id="psw" required>
 
         <hr>
         <button type="submit" class="registerBtn">Գրանցվել</button>
     </div>
 
     <div class="container signIn">
-        <p>Արդեն գրանցվա՞ծ ես <a href="${pageContext.request.contextPath}/logIn.jsp">Մուտք</a>.</p>
+        <p>Արդեն գրանցվա՞ծ ես <a href="${pageContext.request.contextPath}/login.jsp">Մուտք</a>.</p>
     </div>
 </form>
 </body>

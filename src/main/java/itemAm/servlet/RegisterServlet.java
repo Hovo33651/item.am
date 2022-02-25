@@ -30,7 +30,7 @@ public class RegisterServlet extends HttpServlet {
                 .build();
 
         if (userManager.addUser(user)) {
-            resp.sendRedirect("/logIn.jsp");
+            resp.sendRedirect("/login.jsp");
         }else{
             resp.sendRedirect("/register.jsp");
         }

@@ -42,11 +42,11 @@ public class GeneralPageServlet extends HttpServlet {
         }else{
             if(catIdStr == null){
                 req.setAttribute("items",lastItems);
-                req.getRequestDispatcher("/home..jsp").forward(req,resp);
+                req.getRequestDispatcher("/home.jsp").forward(req,resp);
             }else{
                 List<Item> lastItemsByCategory = itemManager.getLastItemsByCategory(categoryManager.getCategoryById(Integer.parseInt(catIdStr)));
                 req.setAttribute("items",lastItemsByCategory);
-                req.getRequestDispatcher("/home..jsp").forward(req,resp);
+                req.getRequestDispatcher("/home.jsp").forward(req,resp);
             }
         }
     }

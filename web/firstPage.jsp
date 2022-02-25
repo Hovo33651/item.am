@@ -97,7 +97,7 @@
     <%for (Category category : categories) {%>
     <a href="${pageContext.request.contextPath}/?catId=<%=category.getId()%>"><%=category.getName()%></a>
     <%}%>
-    <a href="/logIn.jsp" class="right">Մուտք</a>
+    <a href="/login.jsp" class="right">Մուտք</a>
     <a href="/register.jsp" class="right">Գրանցվել</a>
 </div>
 

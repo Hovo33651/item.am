@@ -24,6 +24,6 @@ public class CurrentUserAdsServlet extends HttpServlet {
         List<Item> itemsByUser = itemManager.getCurrentUserAds(user.getId());
 
         req.setAttribute("items",itemsByUser);
-        req.getRequestDispatcher("/home..jsp").forward(req,resp);
+        req.getRequestDispatcher("/home.jsp").forward(req,resp);
     }
 }
