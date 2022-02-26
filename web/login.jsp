@@ -41,17 +41,6 @@
         text-decoration: none; /* remove underline from anchors */
     }
 
-    .btn{
-        width: 100px;
-        border: none;
-        border-radius: 4px;
-        margin: 5px 0;
-        opacity: 0.85;
-        display: inline-block;
-        font-size: 17px;
-        line-height: 20px;
-        text-decoration: none;
-    }
 
     input:hover,
     .btn:hover {
@@ -101,9 +90,10 @@
         <div class="row">
             <h2 style="text-align:left; margin-left: 50px">Մուտք</h2>
             <div class="col">
-                <input type="email" name="email" placeholder="Email" required>
+                <%StringBuilder msg =(StringBuilder) session.getAttribute("msg");%>
+                <span style="font-size: 13px; color: #f63737"><%if(msg!=null){%><%=msg%><%msg.delete(0,50);}%></span<br>
+                <input type="text" name="username" placeholder="Էլ․ հասցե կամ nickname" required>
                 <input type="password" name="password" placeholder="Password" required>
-                <input type="hidden" name="catId" value=" ">
                 <input type="submit" value="Մուտք">
             </div>
         </div>

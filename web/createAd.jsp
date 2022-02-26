@@ -1,4 +1,4 @@
-<%@ page import="itemAm.model.User" %>
+
 <%@ page import="itemAm.manager.CategoryManager" %>
 <%@ page import="itemAm.model.Category" %>
 <%@ page import="java.util.List" %><%--
@@ -8,7 +8,7 @@
   Time: 01:11
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Title</title>
@@ -73,38 +73,42 @@
 </style>
 <body>
 <%
-    HttpSession currentSession = request.getSession();
-    User user = (User) currentSession.getAttribute("user");
     CategoryManager categoryManager = new CategoryManager();
     List<Category> allCategories = categoryManager.getAllCategories();
 %>
-<form action="/createAd" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/createAd" method="post" enctype="multipart/form-data">
     <div class="container">
         <h1>Գրանցել հայտարարություն</h1>
         <hr>
 
-        <label><b>Անունը</b></label>
-        <input type="text" placeholder="Enter Title" name="title" id="title" required>
+        <label></label>
+        <label for="title"></label><input type="text" placeholder="Enter Title" name="title" id="title" required>
 
         <label><b>Հակիրճ նկարագիր</b></label><br>
-        <textarea name="description" placeholder="Item Description"></textarea><br>
+        <label>
+            <textarea name="description" placeholder="Item Description"></textarea>
+        </label><br>
 
         <label><b>Ընտրիր կատեգորիա</b></label><br>
-        <select name="catId">
-            <%for (Category cat : allCategories) {%>
-            <option value="<%=cat.getId()%>"><%=cat.getName()%>></option>
-            <%}%>
-        </select>
+        <label>
+            <select name="catId">
+                <%for (Category cat : allCategories) {%>
+                <option value="<%=cat.getId()%>"><%=cat.getName()%></option>
+                <%}%>
+            </select>
+        </label>
 
         <label><b>Գինը</b></label>
-        <input type="text" placeholder="Input the price" name="price" id="psw-repeat" required>
+        <label for="psw-repeat"></label><input type="text" placeholder="Input the price" name="price" id="psw-repeat" required>
         <label><b>Ընտրիր արժույթ</b></label>
-        <select name="currency">
-            <option value="USD">USD</option>
-            <option value="AMD">AMD</option>
-            <option value="RUB">RUB</option>
-            <option value="EUR">EUR</option>
-        </select>
+        <label>
+            <select name="currency">
+                <option value="USD">USD</option>
+                <option value="AMD">AMD</option>
+                <option value="RUB">RUB</option>
+                <option value="EUR">EUR</option>
+            </select>
+        </label>
 
         <label>Ընտրիր նկար</label><br>
         <input type="file" name="image"><br>

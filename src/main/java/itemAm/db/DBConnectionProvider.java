@@ -1,7 +1,8 @@
 package itemAm.db;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class DBConnectionProvider {
 
     private void loadProperties() throws IOException {
         Properties properties = new Properties();
-        properties.load(new FileInputStream("C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\src\\main\\resources\\config.properties"));
+        properties.load(Files.newInputStream(Paths.get("C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\src\\main\\resources\\config.properties")));
         driverName = properties.getProperty("db.driver.name");
         dbUrl = properties.getProperty("db.url");
         username = properties.getProperty("db.username");

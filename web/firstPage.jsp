@@ -1,7 +1,7 @@
 <%@ page import="itemAm.model.Item" %>
 <%@ page import="java.util.List" %>
 <%@ page import="itemAm.model.Category" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Item.am</title>
@@ -18,10 +18,13 @@
 
     /* Style the header */
     .header {
-        padding: 80px;
+        padding-bottom: 20px;
+        padding-top: 40px;
         text-align: center;
         background: #1abc9c;
         color: white;
+        margin-bottom: 3px;
+        height: 200px;
     }
 
     /* Increase the font size of the h1 element */
@@ -32,14 +35,14 @@
     /* Style the top navigation bar */
     .navbar {
         overflow: hidden;
-        background-color: #333;
+        background-color: #ffebaf;
     }
 
     /* Style the navigation bar links */
     .navbar a {
         float: left;
         display: block;
-        color: white;
+        color: #3f2c2c;
         text-align: center;
         padding: 14px 20px;
         text-decoration: none;
@@ -48,6 +51,7 @@
     /* Right-aligned link */
     .navbar a.right {
         float: right;
+        color: #3f2c2c;
     }
 
     /* Change color on hover */
@@ -70,54 +74,57 @@
         padding: 20px;
     }
 
-    /* Main column */
-    .main {
-        flex: 70%;
-        background-color: white;
-        padding: 20px;
-    }
 
     /* Fake image, just for this example */
     .fakeImg {
-        background-color: #aaa;
         width: 100%;
-        padding: 20px;
     }
 </style>
 
 
 <body>
-<div class="header">
-    <h1>ITEM.AM</h1>
-</div>
-<%    List<Category> categories = (List<Category>)session.getAttribute("categories");
-%>
+<a href="${pageContext.request.contextPath}/main" style="text-decoration: none">
+    <div class="header">
+        <h1>ITEM.AM</h1>
+    </div>
+</a>
+<% List<Category> categories = (List<Category>) session.getAttribute("categories");%>
 <div class="navbar">
-    <a href="/">Գլխավոր</a>
+    <a href="${pageContext.request.contextPath}/main">Գլխավոր</a>
     <%for (Category category : categories) {%>
-    <a href="${pageContext.request.contextPath}/?catId=<%=category.getId()%>"><%=category.getName()%></a>
+    <a href="${pageContext.request.contextPath}/main?catId=<%=category.getId()%>"><%=category.getName()%>
+    </a>
     <%}%>
-    <a href="/login.jsp" class="right">Մուտք</a>
-    <a href="/register.jsp" class="right">Գրանցվել</a>
+    <a href="${pageContext.request.contextPath}/login.jsp" class="right">Մուտք</a>
+    <a href="${pageContext.request.contextPath}/register.jsp" class="right">Գրանցվել</a>
 </div>
 
 <% List<Item> items = (List<Item>) request.getAttribute("items");
     if (items != null) {
         for (Item item : items) {%>
-<div class="row">
-    <div class="side">
-        <h2><%=item.getTitle()%></h2>
-        <h5><%=item.getDescription()%></h5>
-        <h5><%=item.getPrice() + " " + item.getCurrency()%> </h5>
-        <h5><%=item.getUser().getEmail()%></h5>
-        <%if(item.getPicUrl()!= null){%>
-        <div class="fakeImg" style="height:200px;">
-            <img src="/image?path=<%=item.getPicUrl()%>" width="220px">
+<div>
+<a href="${pageContext.request.contextPath}/item?itemId=<%=item.getId()%>" style="text-decoration: none; font-family: Helvetica,serif; color: #333333">
+    <div class="row" style="float:left; width: 270px; margin: 16px">
+        <div class="side">
+            <h2 style="font-size: 18px; text-align: center"><%=item.getTitle()%>
+            </h2>
+            <div class="fakeImg" style="height:150px; text-align: center">
+                <%if (item.getPicUrl() != null) {%>
+                <img src="${pageContext.request.contextPath}/image?path=<%=item.getPicUrl()%>" width="220px" alt="<%=item.getTitle()%>">
+                <%} else {%>
+                <img src="${pageContext.request.contextPath}/img/img.jpg" width="600" alt="no image">
+                <%}%>
+            </div>
+            <h5>Գինը՝ <%=item.getPrice() + " " + item.getCurrency()%>
+            </h5>
+            <hr class="solid" style="border-top: 1px solid #bbb;">
+            <h5 style="color: #9f7b7b">Էլ․ հասցե՝ <%=item.getUser().getEmail()%>
+            </h5>
         </div>
-        <%}%>
     </div>
+</a>
+<%}%>
+<%}%>
 </div>
-<%}%>
-<%}%>
 </body>
 </html>

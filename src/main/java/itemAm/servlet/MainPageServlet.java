@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/")
-public class GeneralPageServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/main")
+public class MainPageServlet extends HttpServlet {
 
     private final ItemManager itemManager = new ItemManager();
     private final CategoryManager categoryManager = new CategoryManager();

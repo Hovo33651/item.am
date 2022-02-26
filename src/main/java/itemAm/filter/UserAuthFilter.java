@@ -11,8 +11,9 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/logout", "/createAd","/currentUserAds"})
 public class UserAuthFilter implements Filter {
+
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 

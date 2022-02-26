@@ -20,8 +20,7 @@ public class ItemManager {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, item.getTitle());
             statement.setString(2, item.getDescription());
-            statement.setDouble(3
-                    , item.getPrice());
+            statement.setDouble(3, item.getPrice());
             statement.setString(4, item.getCurrency());
             statement.setInt(5, item.getCategory().getId());
             statement.setInt(6, item.getUser().getId());
@@ -91,17 +90,47 @@ public class ItemManager {
         }
     }
 
-    public List<Item> getCurrentUserAds(int userId){
+    public List<Item> getCurrentUserAds(int userId) {
         String sql = "SELECT * FROM item WHERE user_id = ?";
         List<Item> items = new ArrayList<>();
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,userId);
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 items.add(getItemsFromResultSet(resultSet));
             }
             return items;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public boolean deleteItemById(int itemId) {
+        String sql = "DELETE FROM item WHERE id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1,itemId);
+            statement.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Item getItemById(int itemId) {
+        String sql = "SELECT * FROM item WHERE id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1,itemId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                return getItemsFromResultSet(resultSet);
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }

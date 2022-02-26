@@ -70,7 +70,6 @@
 
     /* Set a grey background color and center the text of the "sign in" section */
     .signIn {
-        background-color: #f63737;
         text-align: center;
     }
 </style>
@@ -80,7 +79,8 @@
         <h1>Գրանցում</h1>
         <p>Գրանցվելու համար լրացրեք բոլոր տողերը</p>
         <hr>
-
+        <%StringBuilder msg =(StringBuilder) session.getAttribute("msg");%>
+        <label style="font-size: 13px; color: #f63737"><%if(msg!=null){%><%=msg%><%msg.delete(0,50);}%></label>
         <label for="name"><b>Անուն*</b></label>
         <input type="text" placeholder="Ձեր անունը" name="name" id="name" required>
 
@@ -89,6 +89,9 @@
 
         <label for="email"><b>Էլ․ հասցե*</b></label>
         <input type="text" placeholder="Ձեր էլ․ հասցեն" name="email" id="email" required>
+
+        <label for="nickname"><b>Nickname</b></label>
+        <input type="text" placeholder="Ձեր nickname-ը" name="nickname" id="nickname">
 
         <label for="psw"><b>Գաղտնաբառ*</b></label>
         <input type="password" placeholder="Ձեր գաղտնաբառը" name="password" id="psw" required>

@@ -2,7 +2,6 @@ package itemAm.manager;
 
 import itemAm.db.DBConnectionProvider;
 import itemAm.model.Category;
-import itemAm.model.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,22 +12,6 @@ import java.util.List;
 
 public class CategoryManager {
     Connection connection = DBConnectionProvider.getInstance().getConnection();
-
-    public Category getCategoryByName(String catName){
-        String sql = "SELECT * FROM category WHERE name = ?";
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1,catName);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                return getCatFromResultSet(resultSet);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public Category getCategoryById(int id){
         String sql = "SELECT * FROM category WHERE id = ?";

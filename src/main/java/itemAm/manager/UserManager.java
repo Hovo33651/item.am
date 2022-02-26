@@ -9,7 +9,6 @@ public class UserManager {
     Connection connection = DBConnectionProvider.getInstance().getConnection();
 
 
-
     public User getUserById(int id) {
         String sql = "SELECT * FROM user WHERE id = ?";
         try {
@@ -25,11 +24,20 @@ public class UserManager {
         return null;
     }
 
-  public User getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         String sql = "SELECT * FROM user WHERE email = ?";
+        return getUser(email, sql);
+    }
+
+    public User getUserByNickname(String nickname) {
+        String sql = "SELECT * FROM user WHERE nickname = ?";
+        return getUser(nickname, sql);
+    }
+
+    private User getUser(String nickname, String sql) {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, email);
+            statement.setString(1,nickname);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return getUserFromResultSet(resultSet);
@@ -42,13 +50,16 @@ public class UserManager {
 
 
     public boolean addUser(User user) {
-        String sql = "INSERT INTO user(name,surname,email,password) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO user(name,surname,email,nickname,password) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setString(3, user.getEmail());
-            statement.setString(4, user.getPassword());
+            if (user.getNickname() != null) {
+                statement.setString(4, user.getNickname());
+            }
+            statement.setString(5, user.getPassword());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -69,7 +80,8 @@ public class UserManager {
                     .name(resultSet.getString(2))
                     .surname(resultSet.getString(3))
                     .email(resultSet.getString(4))
-                    .password(resultSet.getString(5))
+                    .nickname((resultSet.getString(5))!=null?resultSet.getString(5):null)
+                    .password(resultSet.getString(6))
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();

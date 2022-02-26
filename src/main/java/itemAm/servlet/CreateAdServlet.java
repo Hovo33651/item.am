@@ -2,7 +2,6 @@ package itemAm.servlet;
 
 import itemAm.manager.CategoryManager;
 import itemAm.manager.ItemManager;
-import itemAm.manager.UserManager;
 import itemAm.model.Category;
 import itemAm.model.Item;
 import itemAm.model.User;
@@ -13,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -20,14 +20,12 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/createAd")
 public class CreateAdServlet extends HttpServlet {
 
-    private final String UPLOAD_DIR = "C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\upload";
     private final ItemManager itemManager = new ItemManager();
-    private final UserManager userManager = new UserManager();
     private final CategoryManager categoryManager = new CategoryManager();
-
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         Category category = categoryManager.getCategoryById(Integer.parseInt(req.getParameter("catId")));
@@ -48,16 +46,20 @@ public class CreateAdServlet extends HttpServlet {
 
         for (Part part : req.getParts()) {
             if (getFileName(part) != null) {
-                String fileName = System.currentTimeMillis() + getFileName(part);
-                String fullFileName = UPLOAD_DIR + File.separator + fileName;
-                part.write(fullFileName);
-                item.setPicUrl(fileName);
+                if (Objects.equals(getFileName(part), "")) {
+                    item.setPicUrl(null);
+                } else {
+                    String fileName = System.currentTimeMillis() + getFileName(part);
+                    String UPLOAD_DIR = "C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\upload";
+                    String fullFileName = UPLOAD_DIR + File.separator + fileName;
+                    part.write(fullFileName);
+                    item.setPicUrl(fileName);
+                }
             }
         }
         if (itemManager.addItem(item)) {
-            resp.sendRedirect("/");
+            resp.sendRedirect("/main");
         }
-
     }
 
     private String getFileName(Part part) {
