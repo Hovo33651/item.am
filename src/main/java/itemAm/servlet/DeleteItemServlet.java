@@ -18,7 +18,7 @@ public class DeleteItemServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
 
-        if (itemManager.deleteItemById(itemId)) {
+        if (itemManager.deleteItemById1(itemId)) {
             resp.sendRedirect("/main");
         }
     }

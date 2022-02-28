@@ -3,7 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="itemAm.manager.CategoryManager" %>
-<%@ page import="itemAm.model.Category" %><%--
+<%@ page import="itemAm.model.Category" %>
+<%@ page import="itemAm.model.Picture" %><%--
   Created by IntelliJ IDEA.
   User: Hovhanes Gevorgyan
   Date: 23.02.2022
@@ -48,12 +49,13 @@
         text-align: center;
     }
 
-    .navbar span{
+    .navbar span {
         float: left;
         margin-left: 20px;
         margin-right: 15px;
         margin-top: 7px;
     }
+
     /* Style the navigation bar links */
     .navbar a {
         float: left;
@@ -202,14 +204,18 @@
         for (Item item : items) {%>
 <div>
     <a href="/item?itemId=<%=item.getId()%>" style="text-decoration: none; font-family: Helvetica; color: #2a1f1f">
-        <div class="row" style="float:left; width: 270px; margin: 20px 20px 50px;">
+        <div class="row" style="float:left; width: 270px; margin: 10px 16px 50px;">
             <div class="side">
                 <h2 style="font-size: 18px; text-align: center"><%=item.getTitle()%>
                 </h2>
                 <div class="fakeImg" style="height:150px; text-align: center">
-                    <%if (item.getPicUrl() != null) {%>
-                    <img src="/image?path=<%=item.getPicUrl()%>" width="220px">
-                    <%} else {%>
+                    <%List<Picture> pictures = item.getPictures();
+                        if (pictures != null){ ;
+                        for (Picture pic : pictures) {
+                    %>
+                    <img src="/image?path=<%=pic.getPicUrl()%>" width="220px">
+                    <%}break;
+                        } else{%>
                     <img src="/img/img.jpg" width="150px">
                     <%}%>
                 </div>

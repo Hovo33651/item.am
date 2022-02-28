@@ -1,6 +1,7 @@
 <%@ page import="itemAm.model.Item" %>
 <%@ page import="java.util.List" %>
 <%@ page import="itemAm.model.Category" %>
+<%@ page import="itemAm.model.Picture" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -109,10 +110,13 @@
             <h2 style="font-size: 18px; text-align: center"><%=item.getTitle()%>
             </h2>
             <div class="fakeImg" style="height:150px; text-align: center">
-                <%if (item.getPicUrl() != null) {%>
-                <img src="${pageContext.request.contextPath}/image?path=<%=item.getPicUrl()%>" width="220px" alt="<%=item.getTitle()%>">
-                <%} else {%>
-                <img src="${pageContext.request.contextPath}/img/img.jpg" width="600" alt="no image">
+                <%
+                    List<Picture> pictures = item.getPictures();
+                    if(pictures != null){
+                        for (Picture pic : pictures) {%>
+                <img src="${pageContext.request.contextPath}/image?path=<%=pic.getPicUrl()%>" width="220px" alt="<%=item.getTitle()%>">
+                <%}break;} else {%>
+                <img src="${pageContext.request.contextPath}/img/img.jpg" width="150px" alt="no image">
                 <%}%>
             </div>
             <h5>Գինը՝ <%=item.getPrice() + " " + item.getCurrency()%>

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +19,5 @@ public class Item {
     private String currency;
     private Category category;
     private User user;
-    private String picUrl;
+    private List<Picture> pictures;
 }

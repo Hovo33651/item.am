@@ -14,8 +14,8 @@ public class ItemManager {
     private final CategoryManager categoryManager = new CategoryManager();
 
 
-    public boolean addItem(Item item) {
-        String sql = "INSERT INTO item(title,description,price,currency,category_id,user_id,pic_url) VALUES(?,?,?,?,?,?,?)";
+    public int addItem(Item item) {
+        String sql = "INSERT INTO item(title,description,price,currency,category_id,user_id) VALUES(?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, item.getTitle());
@@ -24,17 +24,16 @@ public class ItemManager {
             statement.setString(4, item.getCurrency());
             statement.setInt(5, item.getCategory().getId());
             statement.setInt(6, item.getUser().getId());
-            statement.setString(7, item.getPicUrl());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 item.setId(resultSet.getInt(1));
             }
-            return true;
+            return item.getId();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
 
@@ -82,7 +81,6 @@ public class ItemManager {
                     .currency(resultSet.getString(5))
                     .category(categoryManager.getCategoryById(resultSet.getInt(6)))
                     .user(userManager.getUserById(resultSet.getInt(7)))
-                    .picUrl(resultSet.getString(8))
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,30 +106,41 @@ public class ItemManager {
     }
 
 
-
-    public boolean deleteItemById(int itemId) {
-        String sql = "DELETE FROM item WHERE id = ?";
-        try{
+    public boolean deleteItemById1(int itemId) {
+        String sql = "DELETE FROM item_pic WHERE item_id = ?";
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,itemId);
+            statement.setInt(1, itemId);
             statement.executeUpdate();
+            deleteItemById2(itemId);
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    private void deleteItemById2(int itemId) {
+        String sql = "DELETE FROM item WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, itemId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Item getItemById(int itemId) {
         String sql = "SELECT * FROM item WHERE id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,itemId);
+            statement.setInt(1, itemId);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return getItemsFromResultSet(resultSet);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;

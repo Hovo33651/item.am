@@ -1,4 +1,3 @@
-
 <%@ page import="itemAm.manager.CategoryManager" %>
 <%@ page import="itemAm.model.Category" %>
 <%@ page import="java.util.List" %><%--
@@ -30,7 +29,7 @@
     }
 
     /* Full-width input fields */
-    input[type=text], input[type=text], select, textarea,input[type=file]{
+    input[type=text], input[type=text], select, textarea, input[type=file] {
         width: 100%;
         padding: 15px;
         margin: 5px 0 22px 0;
@@ -40,7 +39,7 @@
     }
 
 
-    input[type=text]:focus ,input[type=text]:focus,input[type=file] ,textarea:focus, select:focus{
+    input[type=text]:focus, input[type=text]:focus, input[type=file], textarea:focus, select:focus {
         background-color: #ddd;
         outline: none;
     }
@@ -81,25 +80,25 @@
         <h1>Գրանցել հայտարարություն</h1>
         <hr>
 
-        <label></label>
-        <label for="title"></label><input type="text" placeholder="Enter Title" name="title" id="title" required>
+        <label for="title">Անվանում</label>
+        <input type="text" placeholder="Գրեք ապրանքի անվանումը" name="title" id="title" required>
 
         <label><b>Հակիրճ նկարագիր</b></label><br>
         <label>
-            <textarea name="description" placeholder="Item Description"></textarea>
+            <textarea name="description" placeholder="Տվեք հակիրճ նկարագիր"></textarea>
         </label><br>
 
         <label><b>Ընտրիր կատեգորիա</b></label><br>
-        <label>
             <select name="catId">
                 <%for (Category cat : allCategories) {%>
-                <option value="<%=cat.getId()%>"><%=cat.getName()%></option>
+                <option value="<%=cat.getId()%>"><%=cat.getName()%>
+                </option>
                 <%}%>
             </select>
-        </label>
 
         <label><b>Գինը</b></label>
-        <label for="psw-repeat"></label><input type="text" placeholder="Input the price" name="price" id="psw-repeat" required>
+        <label for="psw-repeat"></label><input type="text" placeholder="Գրեք ապրանքի գինը" name="price" id="psw-repeat"
+                                               required>
         <label><b>Ընտրիր արժույթ</b></label>
         <label>
             <select name="currency">
@@ -111,7 +110,7 @@
         </label>
 
         <label>Ընտրիր նկար</label><br>
-        <input type="file" name="image"><br>
+        <input type="file" name="image" multiple><br>
         <hr>
         <button type="submit" class="registerBtn">Ավելացնել</button>
     </div>
