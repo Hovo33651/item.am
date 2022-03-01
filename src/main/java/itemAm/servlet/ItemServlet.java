@@ -24,7 +24,7 @@ public class ItemServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
         List<Integer> picIdsByItemId = itemPicRelatTableManager.getPicIdsByItemId(itemId);
-        List<Picture> picturesById = pictureManager.getPicturesById(picIdsByItemId);
+        List<Picture> picturesById = pictureManager.getPicsById(picIdsByItemId);
 
         Item item = itemManager.getItemById(itemId);
         item.setPictures(picturesById);

@@ -23,7 +23,7 @@ public class DeleteItemServlet extends HttpServlet {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
         List<Picture> pictures = itemManager.getItemById(itemId).getPictures();
         for (Picture picture : pictures) {
-            pictureManager.deleteImageStepTwo(picture.getId());
+            pictureManager.deletePicById(picture.getId());
         }
         if (itemManager.deleteItemById(itemId)) {
             resp.sendRedirect("/main");

@@ -29,12 +29,12 @@ public class PictureManager {
         return 0;
     }
 
-    public void deleteImageStepTwo(int picId) {
+    public void deletePicById(int picId) {
         String sql = "DELETE FROM picture WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, picId);
-            if (itemPicRelatTableManager.deleteImage(picId)) {
+            if (itemPicRelatTableManager.deletePicById(picId)) {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -44,7 +44,7 @@ public class PictureManager {
 
 
 
-    public List<Picture> getPicturesById(List<Integer> picIds) {
+    public List<Picture> getPicsById(List<Integer> picIds) {
         List<Picture> picUrls = new ArrayList<>();
         try {
             for (Integer picId : picIds) {

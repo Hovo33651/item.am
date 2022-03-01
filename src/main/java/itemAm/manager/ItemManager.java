@@ -127,7 +127,7 @@ public class ItemManager {
     public Item getItemById(int itemId) {
         String sql = "SELECT * FROM item WHERE id = ?";
         List<Integer> picIds = itemPicRelatTableManager.getPicIdsByItemId(itemId);
-        List<Picture> picturesById = pictureManager.getPicturesById(picIds);
+        List<Picture> picturesById = pictureManager.getPicsById(picIds);
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, itemId);

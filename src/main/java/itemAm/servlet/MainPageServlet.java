@@ -36,7 +36,7 @@ public class MainPageServlet extends HttpServlet {
         List<Item> lastItems = itemManager.getLastItems();
         for (Item item : lastItems) {
             List<Integer> picIds = itemPicRelatTableManager.getPicIdsByItemId(item.getId());
-            List<Picture> picturesById = pictureManager.getPicturesById(picIds);
+            List<Picture> picturesById = pictureManager.getPicsById(picIds);
             item.setPictures(picturesById);
         }
         session.setAttribute("categories",allCategories);
@@ -57,7 +57,7 @@ public class MainPageServlet extends HttpServlet {
                 List<Item> lastItemsByCategory = itemManager.getLastItemsByCategory(categoryManager.getCategoryById(Integer.parseInt(catIdStr)));
                 for (Item item : lastItemsByCategory) {
                     List<Integer> picIds = itemPicRelatTableManager.getPicIdsByItemId(item.getId());
-                    List<Picture> picturesById = pictureManager.getPicturesById(picIds);
+                    List<Picture> picturesById = pictureManager.getPicsById(picIds);
                     item.setPictures(picturesById);
                 }
                 req.setAttribute("items",lastItemsByCategory);

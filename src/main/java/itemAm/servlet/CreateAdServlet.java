@@ -70,12 +70,12 @@ public class CreateAdServlet extends HttpServlet {
                             .picUrl(fileName)
                             .build();
                     int picId = pictureManager.addPic(picture);
-                    if (itemPicRelatTableManager.addItemPic(itemId, picture.getId())) {
+                    if (itemPicRelatTableManager.addItemAndPic(itemId, picture.getId())) {
                         picIds.add(picId);
                     }
                 }
             }
-            List<Picture> picturesById = pictureManager.getPicturesById(picIds);
+            List<Picture> picturesById = pictureManager.getPicsById(picIds);
             if (!picturesById.isEmpty()) {
                 item.setPictures(picturesById);
             }

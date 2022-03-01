@@ -14,7 +14,7 @@ public class ItemPicRelatTableManager {
     Connection connection = DBConnectionProvider.getInstance().getConnection();
 
 
-    public boolean addItemPic(int itemId, int picId) {
+    public boolean addItemAndPic(int itemId, int picId) {
         String sql = "INSERT INTO item_pic(item_id,pic_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class ItemPicRelatTableManager {
         return null;
     }
 
-    public boolean deleteImage(int picId) {
+    public boolean deletePicById(int picId) {
         String sql = "DELETE FROM item_pic WHERE pic_id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
