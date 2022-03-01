@@ -1,8 +1,7 @@
 package itemAm.servlet;
 
-import itemAm.manager.CategoryManager;
 import itemAm.manager.ItemManager;
-import itemAm.manager.ItemPictureManager;
+import itemAm.manager.ItemPicRelatTableManager;
 import itemAm.manager.PictureManager;
 import itemAm.model.Item;
 import itemAm.model.Picture;
@@ -18,13 +17,13 @@ import java.util.List;
 @WebServlet(urlPatterns = "/item")
 public class ItemServlet extends HttpServlet {
     private final ItemManager itemManager = new ItemManager();
-    private final ItemPictureManager itemPictureManager = new ItemPictureManager();
+    private final ItemPicRelatTableManager itemPicRelatTableManager = new ItemPicRelatTableManager();
     private final PictureManager pictureManager = new PictureManager();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
-        List<Integer> picIdsByItemId = itemPictureManager.getPicIdsByItemId(itemId);
+        List<Integer> picIdsByItemId = itemPicRelatTableManager.getPicIdsByItemId(itemId);
         List<Picture> picturesById = pictureManager.getPicturesById(picIdsByItemId);
 
         Item item = itemManager.getItemById(itemId);

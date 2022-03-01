@@ -13,7 +13,7 @@ public class ItemManager {
     private final Connection connection = DBConnectionProvider.getInstance().getConnection();
     private final UserManager userManager = new UserManager();
     private final CategoryManager categoryManager = new CategoryManager();
-    private final ItemPictureManager itemPictureManager = new ItemPictureManager();
+    private final ItemPicRelatTableManager itemPicRelatTableManager = new ItemPicRelatTableManager();
     private final PictureManager pictureManager = new PictureManager();
 
 
@@ -114,7 +114,7 @@ public class ItemManager {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, itemId);
-            if (itemPictureManager.deleteItemById(itemId)) {
+            if (itemPicRelatTableManager.deleteItemById(itemId)) {
                 statement.executeUpdate();
             }
             return true;
@@ -126,7 +126,7 @@ public class ItemManager {
 
     public Item getItemById(int itemId) {
         String sql = "SELECT * FROM item WHERE id = ?";
-        List<Integer> picIds = itemPictureManager.getPicIdsByItemId(itemId);
+        List<Integer> picIds = itemPicRelatTableManager.getPicIdsByItemId(itemId);
         List<Picture> picturesById = pictureManager.getPicturesById(picIds);
         try {
             PreparedStatement statement = connection.prepareStatement(sql);

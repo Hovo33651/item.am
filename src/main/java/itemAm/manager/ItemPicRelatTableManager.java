@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemPictureManager {
+public class ItemPicRelatTableManager {
 
     Connection connection = DBConnectionProvider.getInstance().getConnection();
 

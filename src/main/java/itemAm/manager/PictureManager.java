@@ -1,18 +1,15 @@
 package itemAm.manager;
 
-import com.mysql.cj.jdbc.CallableStatementWrapper;
 import itemAm.db.DBConnectionProvider;
-import itemAm.model.Item;
 import itemAm.model.Picture;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PictureManager {
     private final Connection connection = DBConnectionProvider.getInstance().getConnection();
-    private final ItemPictureManager itemPictureManager = new ItemPictureManager();
+    private final ItemPicRelatTableManager itemPicRelatTableManager = new ItemPicRelatTableManager();
 
 
     public int addPic(Picture picture) {
@@ -37,7 +34,7 @@ public class PictureManager {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, picId);
-            if (itemPictureManager.deleteImage(picId)) {
+            if (itemPicRelatTableManager.deleteImage(picId)) {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
