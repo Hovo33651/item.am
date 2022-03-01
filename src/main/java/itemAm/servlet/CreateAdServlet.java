@@ -15,8 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(urlPatterns = "/createAd")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -33,54 +32,68 @@ public class CreateAdServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        String title = req.getParameter("title");
-        String description = req.getParameter("description");
-        Category category = categoryManager.getCategoryById(Integer.parseInt(req.getParameter("catId")));
-        double price = Double.parseDouble(req.getParameter("price"));
-        String currency = req.getParameter("currency");
+        StringBuilder msg = new StringBuilder();
+        try {
+            Collection<Part> parts = req.getParts();
+            String title = req.getParameter("title");
+            String description = req.getParameter("description");
+            Category category = categoryManager.getCategoryById(Integer.parseInt(req.getParameter("catId")));
+            double price = Double.parseDouble(req.getParameter("price"));
+            String currency = req.getParameter("currency");
 
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("user");
 
-        Item item = Item.builder()
-                .title(title)
-                .description(description)
-                .category(category)
-                .price(price)
-                .currency(currency)
-                .user(user)
-                .build();
+            Item item = Item.builder()
+                    .title(title)
+                    .description(description)
+                    .category(category)
+                    .price(price)
+                    .currency(currency)
+                    .user(user)
+                    .build();
 
-        int itemId = itemManager.addItem(item);
-        item.setId(itemId);
-        List<Integer> picIds = new ArrayList<>();
-        for (Part part : req.getParts()) {
-            if (getFileName(part) != null) {
-                String fileName = System.currentTimeMillis() + getFileName(part);
-                String UPLOAD_DIR = "C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\upload";
-                String fullFileName = UPLOAD_DIR + File.separator + fileName;
-                part.write(fullFileName);
-                Picture picture = Picture.builder()
-                        .picUrl(fileName)
-                        .build();
-                int picId = pictureManager.addPic(picture);
-                if (itemPictureManager.addItemPic(itemId, picture.getId())) {
-                    picIds.add(picId);
+            int itemId = itemManager.addItem(item);
+            item.setId(itemId);
+            List<Integer> picIds = new ArrayList<>();
+            for (Part part : parts) {
+                if (getFileName(part) != null) {
+                    if (Objects.equals(getFileName(part), "")) {
+                        item.setPictures(null);
+                        break;
+                    }
+                    String fileName = System.currentTimeMillis() + getFileName(part);
+                    String UPLOAD_DIR = "C:\\Users\\Hovhanes Gevorgyan\\IdeaProjects\\Autho.am\\upload";
+                    String fullFileName = UPLOAD_DIR + File.separator + fileName;
+                    part.write(fullFileName);
+                    Picture picture = Picture.builder()
+                            .picUrl(fileName)
+                            .build();
+                    int picId = pictureManager.addPic(picture);
+                    if (itemPictureManager.addItemPic(itemId, picture.getId())) {
+                        picIds.add(picId);
+                    }
                 }
             }
-        }
-        List<Picture> picturesById = pictureManager.getPicturesById(picIds);
-        item.setPictures(picturesById);
-        resp.sendRedirect("/main");
-    }
+            List<Picture> picturesById = pictureManager.getPicturesById(picIds);
+            if (!picturesById.isEmpty()) {
+                item.setPictures(picturesById);
+            }
+            resp.sendRedirect("/main");
 
-
-    private String getFileName(Part part) {
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename"))
-                return content.substring(content.indexOf("=") + 2, content.length() - 1);
+        } catch (IllegalStateException e) {
+            msg.append("Միավոր նկարի չափը չպետք է գերազանցի 5MB-ը");
+            req.setAttribute("msg", msg);
+            req.getRequestDispatcher("/createAd.jsp").forward(req, resp);
         }
-        return null;
+
     }
-}
+        private String getFileName (Part part){
+            for (String content : part.getHeader("content-disposition").split(";")) {
+                if (content.trim().startsWith("filename"))
+                    return content.substring(content.indexOf("=") + 2, content.length() - 1);
+            }
+            return null;
+        }
+    }
 

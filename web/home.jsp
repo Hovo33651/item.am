@@ -200,7 +200,7 @@
 </script>
 
 <% List<Item> items = (List<Item>) request.getAttribute("items");
-    if (items != null) {
+    if (!items.isEmpty()) {
         for (Item item : items) {%>
 <div>
     <a href="/item?itemId=<%=item.getId()%>" style="text-decoration: none; font-family: Helvetica; color: #2a1f1f">
@@ -210,12 +210,11 @@
                 </h2>
                 <div class="fakeImg" style="height:150px; text-align: center">
                     <%List<Picture> pictures = item.getPictures();
-                        if (pictures != null){ ;
+                        if (!pictures.isEmpty()){ ;
                         for (Picture pic : pictures) {
                     %>
                     <img src="/image?path=<%=pic.getPicUrl()%>" width="220px">
-                    <%}break;
-                        } else{%>
+                    <%break;}} else{%>
                     <img src="/img/img.jpg" width="150px">
                     <%}%>
                 </div>

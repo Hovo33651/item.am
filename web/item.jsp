@@ -194,16 +194,19 @@
     <div class="side" style="width: 800px; height: 800px; margin-top: 400px">
         <h2 style="font-size: 18px; text-align: center"><%=item.getTitle()%>
         </h2>
-        <div class="fakeImg" style="height:150px; text-align: center">
-            <%
-                List<Picture> pictures = item.getPictures();
-            if(pictures != null){
+        <%
+            List<Picture> pictures = item.getPictures();
+            if(!pictures.isEmpty()){
                 for (Picture pic : pictures) {%>
-            <img src="/image?path=<%=pic.getPicUrl()%>" width="350px">
-            <%}} else {%>
-            <img src="/img/img.jpg" width="150px">
-            <%}%>
+        <div class="fakeImg" style="height:150px; text-align: center; margin-bottom: 25px">
+            <img src="/image?path=<%=pic.getPicUrl()%>" width="250px">
         </div>
+        <%}}else{%>
+        <div class="fakeImg" style="height:150px; text-align: center; margin-bottom: 100px">
+            <img src="/img/img.jpg" width="150px">
+        </div>
+        <%}%>
+        <br>
         <h5>Գինը՝ <%=item.getPrice() + " " + item.getCurrency()%>
         </h5><br>
 

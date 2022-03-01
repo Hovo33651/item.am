@@ -1,7 +1,7 @@
 <%@ page import="itemAm.manager.CategoryManager" %>
 <%@ page import="itemAm.model.Category" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
+<%@ page import="java.util.List" %>
+Created by IntelliJ IDEA.
   User: Hovhanes Gevorgyan
   Date: 24.02.2022
   Time: 01:11
@@ -75,7 +75,7 @@
     CategoryManager categoryManager = new CategoryManager();
     List<Category> allCategories = categoryManager.getAllCategories();
 %>
-<form action="${pageContext.request.contextPath}/createAd" method="post" enctype="multipart/form-data">
+<form action="/createAd" method="post" enctype="multipart/form-data">
     <div class="container">
         <h1>Գրանցել հայտարարություն</h1>
         <hr>
@@ -109,7 +109,9 @@
             </select>
         </label>
 
-        <label>Ընտրիր նկար</label><br>
+        <label>Ընտրիր նկար</label>
+        <%StringBuilder msg =(StringBuilder) request.getAttribute("msg");%>
+        <span style="font-size: 13px; color: #ff3333"><%if(msg!=null){%><%=  msg%><%msg.delete(0,50);}%></span<br>
         <input type="file" name="image" multiple><br>
         <hr>
         <button type="submit" class="registerBtn">Ավելացնել</button>

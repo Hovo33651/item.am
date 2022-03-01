@@ -93,7 +93,7 @@
                 <%StringBuilder msg =(StringBuilder) session.getAttribute("msg");%>
                 <span style="font-size: 13px; color: #f63737"><%if(msg!=null){%><%=msg%><%msg.delete(0,50);}%></span<br>
                 <input type="text" name="username" placeholder="Էլ․ հասցե կամ nickname" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Գաղտնաբառ" required>
                 <input type="submit" value="Մուտք">
             </div>
         </div>

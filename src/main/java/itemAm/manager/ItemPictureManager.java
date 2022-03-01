@@ -44,4 +44,30 @@ public class ItemPictureManager {
         }
         return null;
     }
+
+    public boolean deleteImage(int picId) {
+        String sql = "DELETE FROM item_pic WHERE pic_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, picId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteItemById(int itemId) {
+        String sql = "DELETE FROM item_pic WHERE item_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, itemId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

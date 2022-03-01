@@ -32,6 +32,21 @@ public class PictureManager {
         return 0;
     }
 
+    public void deleteImageStepTwo(int picId) {
+        String sql = "DELETE FROM picture WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, picId);
+            if (itemPictureManager.deleteImage(picId)) {
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     public List<Picture> getPicturesById(List<Integer> picIds) {
         List<Picture> picUrls = new ArrayList<>();
         try {

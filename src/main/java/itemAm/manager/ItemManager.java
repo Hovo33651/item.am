@@ -3,6 +3,7 @@ package itemAm.manager;
 import itemAm.db.DBConnectionProvider;
 import itemAm.model.Category;
 import itemAm.model.Item;
+import itemAm.model.Picture;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public class ItemManager {
     private final Connection connection = DBConnectionProvider.getInstance().getConnection();
     private final UserManager userManager = new UserManager();
     private final CategoryManager categoryManager = new CategoryManager();
+    private final ItemPictureManager itemPictureManager = new ItemPictureManager();
+    private final PictureManager pictureManager = new PictureManager();
 
 
     public int addItem(Item item) {
@@ -88,6 +91,7 @@ public class ItemManager {
         }
     }
 
+
     public List<Item> getCurrentUserAds(int userId) {
         String sql = "SELECT * FROM item WHERE user_id = ?";
         List<Item> items = new ArrayList<>();
@@ -105,44 +109,39 @@ public class ItemManager {
         return null;
     }
 
-
-    public boolean deleteItemById1(int itemId) {
-        String sql = "DELETE FROM item_pic WHERE item_id = ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, itemId);
-            statement.executeUpdate();
-            deleteItemById2(itemId);
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private void deleteItemById2(int itemId) {
+    public boolean deleteItemById(int itemId) {
         String sql = "DELETE FROM item WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, itemId);
-            statement.executeUpdate();
+            if (itemPictureManager.deleteItemById(itemId)) {
+                statement.executeUpdate();
+            }
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     public Item getItemById(int itemId) {
         String sql = "SELECT * FROM item WHERE id = ?";
+        List<Integer> picIds = itemPictureManager.getPicIdsByItemId(itemId);
+        List<Picture> picturesById = pictureManager.getPicturesById(picIds);
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, itemId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return getItemsFromResultSet(resultSet);
+                Item item = getItemsFromResultSet(resultSet);
+                assert item != null;
+                item.setPictures(picturesById);
+                return item;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 }

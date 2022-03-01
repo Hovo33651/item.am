@@ -101,7 +101,7 @@
 </div>
 
 <% List<Item> items = (List<Item>) request.getAttribute("items");
-    if (items != null) {
+    if (!items.isEmpty()) {
         for (Item item : items) {%>
 <div>
 <a href="${pageContext.request.contextPath}/item?itemId=<%=item.getId()%>" style="text-decoration: none; font-family: Helvetica,serif; color: #333333">
@@ -112,10 +112,10 @@
             <div class="fakeImg" style="height:150px; text-align: center">
                 <%
                     List<Picture> pictures = item.getPictures();
-                    if(pictures != null){
-                        for (Picture pic : pictures) {%>
+                    if(!pictures.isEmpty()){
+                       loop: for (Picture pic : pictures) {%>
                 <img src="${pageContext.request.contextPath}/image?path=<%=pic.getPicUrl()%>" width="220px" alt="<%=item.getTitle()%>">
-                <%}break;} else {%>
+                <%break;}} else {%>
                 <img src="${pageContext.request.contextPath}/img/img.jpg" width="150px" alt="no image">
                 <%}%>
             </div>
